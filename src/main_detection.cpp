@@ -6,6 +6,7 @@
 #ifdef BUILD_UMICH
 #include "visual_marker_mapping/TagDetector_Umich.h"
 #endif
+#include "visual_marker_mapping/TagDetector_cptags.h"
 #include "visual_marker_mapping/TagReconstructor.h"
 #include <boost/filesystem.hpp>
 #include <boost/program_options.hpp>
@@ -123,6 +124,10 @@ int main(int argc, char* argv[])
             std::cout << "Using the tag detector implementation by the MIT." << std::endl;
             detection_result = visual_marker_mapping::mit::detectTags(img_path, marker_width,
                 marker_height, marker_type, vm["do_corner_refinement"].as<bool>());
+        }
+        else if (vm["tag_detector_backend"].as<std::string>() == "cptags")
+        {
+            detection_result = visual_marker_mapping::cptags::detectTags(img_path, marker_type);
         }
         else
         {

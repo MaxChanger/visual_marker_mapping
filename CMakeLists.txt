@@ -50,6 +50,7 @@ add_library(visual_marker_mapping_lib
             src/FileUtilities.cpp
             src/PropertyTreeUtilities.cpp
             src/TagDetector_MIT.cpp
+            src/TagDetector_cptags.cpp
             include/visual_marker_mapping/Camera.h
             include/visual_marker_mapping/TagReconstructor.h
             include/visual_marker_mapping/DetectionIO.h
@@ -62,7 +63,8 @@ add_library(visual_marker_mapping_lib
             include/visual_marker_mapping/CameraUtilities.h
             include/visual_marker_mapping/TagReconstructionCostFunction.h
             include/visual_marker_mapping/DetectionResults.h
-            include/visual_marker_mapping/TagDetector_MIT.h)
+            include/visual_marker_mapping/TagDetector_MIT.h
+            include/visual_marker_mapping/TagDetector_cptags.h)
 
 if(BUILD_UMICH)
 target_sources(visual_marker_mapping_lib PRIVATE
