@@ -114,7 +114,8 @@ int main(int argc, char* argv[])
             detection_result = visual_marker_mapping::umich::detectTags(img_path, marker_width,
                 marker_height, marker_type, vm["do_corner_refinement"].as<bool>());
 #else
-			throw std::runtime_error("The implementation by the University of Michigan was not built.");
+            throw std::runtime_error(
+                "The implementation by the University of Michigan was not built.");
 #endif
         }
         else if (vm["tag_detector_backend"].as<std::string>() == "fast_mit_apriltags")
