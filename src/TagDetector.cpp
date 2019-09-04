@@ -60,7 +60,8 @@ void refineTagObservation(const cv::Mat& img, TagObservation& tagObs)
 
     cv::Size winSize = cv::Size(10, 10);
     cv::Size zeroZone = cv::Size(-1, -1);
-    cv::TermCriteria criteria = cv::TermCriteria(CV_TERMCRIT_EPS + CV_TERMCRIT_ITER, 100, 0.001);
+    cv::TermCriteria criteria
+        = cv::TermCriteria(cv::TermCriteria::MAX_ITER + cv::TermCriteria::EPS, 100, 0.001);
 
     /// Calculate the refined corner locations
     cv::cornerSubPix(img, corners, winSize, zeroZone, criteria);

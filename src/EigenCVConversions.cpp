@@ -54,8 +54,8 @@ void solvePnPEigen(const std::vector<Eigen::Vector3d>& objectPoints,
     cv::eigen2cv(K, KCv);
 
     cv::Mat rCv, tCv;
-    cv::solvePnP(
-        objectPointsCv, observationsCv, KCv, distCoefficentsCv, rCv, tCv, false, CV_ITERATIVE);
+    cv::solvePnP(objectPointsCv, observationsCv, KCv, distCoefficentsCv, rCv, tCv, false,
+        cv::SOLVEPNP_ITERATIVE);
 
     cv::Mat RCv;
     cv::Rodrigues(rCv, RCv);

@@ -653,7 +653,7 @@ void TagReconstructor::doBundleAdjustment(
 
     ceres::Problem markerBAProblem;
 
-    auto ordering = new ceres::ParameterBlockOrdering;
+    auto ordering = std::make_shared<ceres::ParameterBlockOrdering>();
 
     auto quaternion_parameterization = new ceres::QuaternionParameterization;
 
@@ -728,7 +728,7 @@ void TagReconstructor::doBundleAdjustment(
     options.minimizer_progress_to_stdout = false;
     options.max_num_iterations = maxNumIterations;
     options.num_threads = static_cast<int>(ceresThreads);
-    options.num_linear_solver_threads = static_cast<int>(ceresThreads);
+    // options.num_linear_solver_threads = static_cast<int>(ceresThreads);
     // options.eta = 1e-2;
 
     ceres::Solver::Summary summary;
