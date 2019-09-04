@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.0)
 project(visual_marker_mapping)
 
+set(CMAKE_EXPORT_COMPILE_COMMANDS "ON")
+
 SET(BUILD_UMICH ON CACHE BOOL
     "Build library by the University of Michigan")
 
