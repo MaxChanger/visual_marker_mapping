@@ -25,7 +25,7 @@ namespace umich
         if (filePaths.empty())
             throw std::runtime_error("Filepaths for tag detections are empty.");
 
-        cv::Mat img = cv::imread(filePaths[0], CV_LOAD_IMAGE_GRAYSCALE);
+        cv::Mat img = cv::imread(filePaths[0], cv::IMREAD_GRAYSCALE);
         const int imgWidth = img.cols;
         const int imgHeight = img.rows;
 
@@ -79,7 +79,7 @@ namespace umich
             std::cout << "Processing file " << (imageId + 1) << "/" << filePaths.size() << " "
                       << filePath << std::endl;
 
-            const cv::Mat img = cv::imread(filePath, CV_LOAD_IMAGE_GRAYSCALE);
+            const cv::Mat img = cv::imread(filePath, cv::IMREAD_GRAYSCALE);
 
             if (img.cols != imgWidth || img.rows != imgHeight)
             {
@@ -89,7 +89,7 @@ namespace umich
             }
 
             cv::Mat visualization = img.clone();
-            cv::cvtColor(visualization, visualization, CV_GRAY2BGR);
+            cv::cvtColor(visualization, visualization, cv::COLOR_GRAY2BGR);
 
             // Make an image_u8_t header for the Mat data
             image_u8_t im{ img.cols, img.rows, img.cols, img.data };
@@ -124,8 +124,8 @@ namespace umich
 
                     cv::Size winSize = cv::Size(10, 10);
                     cv::Size zeroZone = cv::Size(-1, -1);
-                    cv::TermCriteria criteria
-                        = cv::TermCriteria(CV_TERMCRIT_EPS + CV_TERMCRIT_ITER, 100, 0.001);
+                    cv::TermCriteria criteria = cv::TermCriteria(
+                        cv::TermCriteria::EPS + cv::TermCriteria::MAX_ITER, 100, 0.001);
 
                     /// Calculate the refined corner locations
                     cv::cornerSubPix(img, corners, winSize, zeroZone, criteria);
@@ -203,5 +203,5 @@ namespace umich
         return detectTags(filePaths, markerWidth, markerHeight, tagType, doCornerRefinement);
     }
     //-------------------------------------------------------------------------------------------------
-}
-}
+} // namespace umich
+} // namespace visual_marker_mapping

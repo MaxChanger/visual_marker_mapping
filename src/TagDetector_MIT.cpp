@@ -26,7 +26,7 @@ namespace mit
         if (filePaths.empty())
             throw std::runtime_error("Filepaths for tag detections are empty.");
 
-        cv::Mat img = cv::imread(filePaths[0], CV_LOAD_IMAGE_GRAYSCALE);
+        cv::Mat img = cv::imread(filePaths[0], cv::IMREAD_GRAYSCALE);
         const int imgWidth = img.cols;
         const int imgHeight = img.rows;
 
@@ -65,7 +65,7 @@ namespace mit
             std::cout << "Processing file " << (imageId + 1) << "/" << filePaths.size() << " "
                       << filePath << std::endl;
 
-            const cv::Mat img = cv::imread(filePath, CV_LOAD_IMAGE_GRAYSCALE);
+            const cv::Mat img = cv::imread(filePath, cv::IMREAD_GRAYSCALE);
 
             if (img.cols != imgWidth || img.rows != imgHeight)
             {
@@ -75,7 +75,7 @@ namespace mit
             }
 
             cv::Mat visualization = img.clone();
-            cv::cvtColor(visualization, visualization, CV_GRAY2BGR);
+            cv::cvtColor(visualization, visualization, cv::COLOR_GRAY2BGR);
 
             const std::vector<AprilTags::TagDetection> detectedTags = tagDetector->extractTags(img);
 
