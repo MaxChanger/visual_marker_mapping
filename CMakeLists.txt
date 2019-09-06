@@ -21,14 +21,6 @@ find_package( OpenCV REQUIRED core imgproc calib3d optflow highgui)
 
 # Find Boost
 find_package(Boost COMPONENTS filesystem system program_options REQUIRED) 
-include_directories(${Boost_INCLUDE_DIR})
-if(WIN32)
-add_definitions(-D_USE_MATH_DEFINES)
-add_definitions(-DBOOST_ALL_DYN_LINK)
-set(Boost_USE_STATIC_LIBS OFF )
-set(Boost_USE_MULTITHREADED ON)
-set(Boost_USE_STATIC_RUNTIME OFF)
-endif(WIN32)
 
 # Ceres 
 find_package(Ceres REQUIRED HINTS /usr/lib/cmake/Ceres)
@@ -72,17 +64,18 @@ target_sources(visual_marker_mapping_lib PRIVATE
 			include/visual_marker_mapping/TagDetector_Umich.h)
 endif(BUILD_UMICH)
 			
-set_property(TARGET visual_marker_mapping_lib PROPERTY CXX_STANDARD 11)
-set_property(TARGET visual_marker_mapping_lib PROPERTY CXX_STANDARD_REQUIRED ON)
+set_property(TARGET visual_marker_mapping_lib PROPERTY CXX_STANDARD 17)
+set_property(TARGET visual_marker_mapping_lib PROPERTY CXX_STANDARD_REQUIRED YES)
+set_property(TARGET visual_marker_mapping_lib PROPERTY CXX_EXTENSIONS NO)
 
 target_include_directories(visual_marker_mapping_lib PUBLIC
                            include
                            ${Boost_INCLUDE_DIRS}
-                           ${CERES_INCLUDE_DIRS})
+                           )
 
 target_link_libraries(visual_marker_mapping_lib
                       ${OpenCV_LIBS}
-                      ${CERES_LIBRARIES}
+                      ceres
                       ${Boost_LIBRARIES}
                       Eigen3::Eigen
                       ${FLEP_PACKAGE_DEPS})
@@ -96,19 +89,19 @@ endif(BUILD_UMICH)
 add_executable(visual_marker_mapping
                src/main_mapping.cpp)
 
-set_property(TARGET visual_marker_mapping PROPERTY CXX_STANDARD 11)
-set_property(TARGET visual_marker_mapping PROPERTY CXX_STANDARD_REQUIRED ON)
+set_property(TARGET visual_marker_mapping PROPERTY CXX_STANDARD 17)
+set_property(TARGET visual_marker_mapping PROPERTY CXX_STANDARD_REQUIRED YES)
+set_property(TARGET visual_marker_mapping PROPERTY CXX_EXTENSIONS NO)
 
 target_include_directories(visual_marker_mapping_lib PUBLIC
                            include
                            ${Boost_INCLUDE_DIRS}
-                           ${CERES_INCLUDE_DIRS})
+                           )
 
 target_link_libraries(visual_marker_mapping
                       ${OpenCV_LIBS}
-                      ${CERES_LIBRARIES}
+                      ceres
                       ${Boost_LIBRARIES}
-                      ${GLOG_LIBRARY}
                       Eigen3::Eigen
                       visual_marker_mapping_lib
                       ${FLEP_PACKAGE_DEPS})
@@ -118,20 +111,21 @@ target_link_libraries(visual_marker_mapping
 add_executable(visual_marker_detection
                src/main_detection.cpp)
 
-set_property(TARGET visual_marker_detection PROPERTY CXX_STANDARD 11)
-set_property(TARGET visual_marker_detection PROPERTY CXX_STANDARD_REQUIRED ON)
+
+set_property(TARGET visual_marker_detection PROPERTY CXX_STANDARD 17)
+set_property(TARGET visual_marker_detection PROPERTY CXX_STANDARD_REQUIRED YES)
+set_property(TARGET visual_marker_detection PROPERTY CXX_EXTENSIONS NO)
 
 target_include_directories(visual_marker_mapping_lib PUBLIC
                            include
-                           ${Boost_INCLUDE_DIRS}
-                           ${CERES_INCLUDE_DIRS})
+                           ${Boost_INCLUDE_DIRS})
 
 target_link_libraries(visual_marker_detection
                       ${OpenCV_LIBS}
-                      ${CERES_LIBRARIES}
                       ${Boost_LIBRARIES}
                       Eigen3::Eigen
                       visual_marker_mapping_lib
+                      ceres
                       ${FLEP_PACKAGE_DEPS})
 if(BUILD_UMICH)
 target_link_libraries(visual_marker_detection umich_apriltags)
