@@ -36,7 +36,7 @@ struct ReconstructedTag
 
         const Eigen::Matrix3d R = quat().toRotationMatrix();
 
-        for (size_t i = 0; i < 4; ++i)
+        for (size_t i = 0; i < markerCorners3D.size(); ++i)
             markerCorners3D[i] = R * markerCorners3D[i] + t;
 
         return markerCorners3D;
@@ -44,6 +44,11 @@ struct ReconstructedTag
     std::vector<Eigen::Vector3d> computeLocalMarkerCorners3D() const
     {
         std::vector<Eigen::Vector3d> markerCorners3D;
+        if (tagWidth < 1e-4)
+        {
+            markerCorners3D.push_back(Eigen::Vector3d(0, 0, 0));
+            return markerCorners3D;
+        }
         markerCorners3D.push_back(Eigen::Vector3d(-tagWidth / 2.0, -tagHeight / 2.0, 0));
         markerCorners3D.push_back(Eigen::Vector3d(tagWidth / 2.0, -tagHeight / 2.0, 0));
         markerCorners3D.push_back(Eigen::Vector3d(tagWidth / 2.0, tagHeight / 2.0, 0));
@@ -144,6 +149,6 @@ protected:
      */
     CameraModel camModel;
 };
-}
+} // namespace visual_marker_mapping
 
 #endif
