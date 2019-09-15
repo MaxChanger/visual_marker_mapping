@@ -27,16 +27,18 @@ void visualizeDetectionResults(
             if (tagDetection.imageId != image.imageId)
                 continue;
 
-            const int px
-                = static_cast<int>((tagDetection.corners[0].x() + tagDetection.corners[2].x()) / 2);
-            const int py
-                = static_cast<int>((tagDetection.corners[0].y() + tagDetection.corners[2].y()) / 2);
+            Eigen::Vector2d center = Eigen::Vector2d::Zero();
+            for (const auto& c : tagDetection.corners)
+                center += c;
+            center /= tagDetection.corners.size();
+            const int px = static_cast<int>(center.x());
+            const int py = static_cast<int>(center.y());
             const cv::Point pos(px, py);
 
             cv::putText(cvImg, std::to_string(tagDetection.tagId), pos, cv::FONT_HERSHEY_SIMPLEX,
                 3.5, cv::Scalar(255, 100, 0), 4);
 
-            for (size_t i = 0; i < 4; ++i)
+            for (size_t i = 0; i < tagDetection.corners.size(); ++i)
             {
                 const cv::Scalar color = colorMap[i];
                 cv::circle(cvImg,
@@ -55,7 +57,7 @@ void visualizeDetectionResults(
 void refineTagObservation(const cv::Mat& img, TagObservation& tagObs)
 {
     std::vector<cv::Point2f> corners;
-    for (size_t i = 0; i < 4; i++)
+    for (size_t i = 0; i < tagObs.corners.size(); i++)
         corners.emplace_back(tagObs.corners[i].x(), tagObs.corners[i].y());
 
     cv::Size winSize = cv::Size(10, 10);
@@ -66,7 +68,7 @@ void refineTagObservation(const cv::Mat& img, TagObservation& tagObs)
     /// Calculate the refined corner locations
     cv::cornerSubPix(img, corners, winSize, zeroZone, criteria);
 
-    for (size_t i = 0; i < 4; i++)
+    for (size_t i = 0; i < tagObs.corners.size(); i++)
     {
         // std::cout << "BEFOR: " << tagObs.corners[i].transpose() <<
         // std::endl;
@@ -76,4 +78,4 @@ void refineTagObservation(const cv::Mat& img, TagObservation& tagObs)
     }
 }
 //-------------------------------------------------------------------------------------------------
-}
+} // namespace visual_marker_mapping

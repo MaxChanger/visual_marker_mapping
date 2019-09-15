@@ -1,15 +1,15 @@
-#include <ceres/ceres.h>
-#include <iostream>
-#include <fstream>
-#include <chrono>
-#include <thread>
-#include "visual_marker_mapping/TagDetector.h"
-#include <boost/program_options.hpp>
-#include <boost/filesystem.hpp>
 #include "visual_marker_mapping/CameraUtilities.h"
-#include "visual_marker_mapping/TagReconstructor.h"
 #include "visual_marker_mapping/DetectionIO.h"
 #include "visual_marker_mapping/ReconstructionIO.h"
+#include "visual_marker_mapping/TagDetector.h"
+#include "visual_marker_mapping/TagReconstructor.h"
+#include <boost/filesystem.hpp>
+#include <boost/program_options.hpp>
+#include <ceres/ceres.h>
+#include <chrono>
+#include <fstream>
+#include <iostream>
+#include <thread>
 
 //------------------------------------------------------------------------------------------------------------
 namespace po = boost::program_options;
@@ -75,7 +75,8 @@ int main(int argc, char* argv[])
         const visual_marker_mapping::CameraModel camera_model
             = visual_marker_mapping::readCameraModel(cam_intrinsics_file);
 
-        auto detectionResult = visual_marker_mapping::readDetectionResult(detection_result_filename);
+        auto detectionResult
+            = visual_marker_mapping::readDetectionResult(detection_result_filename);
         visual_marker_mapping::TagReconstructor reconstructor(std::move(detectionResult));
         reconstructor.setCameraModel(camera_model);
         reconstructor.setOriginTagId(startId);
@@ -83,7 +84,7 @@ int main(int argc, char* argv[])
 
         visual_marker_mapping::exportReconstructions(reconstruction_file,
             reconstructor.getReconstructedTags(), reconstructor.getReconstructedCameras(),
-            camera_model);
+            reconstructor.getCameraModel());
 
         std::cout << "Wrote " << reconstruction_file << "!" << std::endl;
     }

@@ -72,7 +72,7 @@ void exportReconstructions(const std::string& outputPath,
             const int tagId = reconstTag.second.id;
             const auto corners = reconstTag.second.computeMarkerCorners3D();
 
-            for (size_t i = 0; i < 4; i++)
+            for (size_t i = 0; i < corners.size(); i++)
             {
                 boost::property_tree::ptree curTree;
                 curTree.put("marker_id", tagId);

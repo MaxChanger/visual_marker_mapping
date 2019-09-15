@@ -74,9 +74,9 @@ namespace cptags
                 TagObservation tagObs;
                 tagObs.imageId = filteredImageId;
                 tagObs.tagId = detectedTag.id;
-                tagObs.corners.resize(4);
-                for (size_t i = 0; i < 4; ++i)
-                    tagObs.corners[i] << detectedTag.x, detectedTag.y;
+                tagObs.corners.resize(1);
+                //for (size_t i = 0; i < 4; ++i)
+                    tagObs.corners[0] << detectedTag.x, detectedTag.y;
 
                 result.tagObservations.push_back(tagObs);
 

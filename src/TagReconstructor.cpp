@@ -56,7 +56,7 @@ std::map<std::uint32_t, Eigen::Vector3d> flattenReconstruction(
         assert(tagId >= 0);
         const std::uint32_t utagId = static_cast<std::uint32_t>(tagId);
 
-        for (std::uint32_t i = 0; i < 4; i++)
+        for (std::uint32_t i = 0; i < corners.size(); i++)
         {
             const std::uint32_t id = (utagId << 2) + i;
             ret.emplace(id, corners[i]);
