@@ -6,6 +6,7 @@
 #ifdef BUILD_UMICH
 #include "visual_marker_mapping/TagDetector_Umich.h"
 #endif
+#include "visual_marker_mapping/TagDetector_Checkerboard.h"
 #include "visual_marker_mapping/TagDetector_cptags.h"
 #include "visual_marker_mapping/TagReconstructor.h"
 #include <boost/filesystem.hpp>

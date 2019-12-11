@@ -56,7 +56,8 @@ add_library(visual_marker_mapping_lib
             include/visual_marker_mapping/TagReconstructionCostFunction.h
             include/visual_marker_mapping/DetectionResults.h
             include/visual_marker_mapping/TagDetector_MIT.h
-            include/visual_marker_mapping/TagDetector_cptags.h)
+            include/visual_marker_mapping/TagDetector_cptags.h
+            include/visual_marker_mapping/TagDetector_Checkerboard.h)
 
 if(BUILD_UMICH)
 target_sources(visual_marker_mapping_lib PRIVATE
